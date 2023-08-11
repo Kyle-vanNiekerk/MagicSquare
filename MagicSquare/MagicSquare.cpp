@@ -1,6 +1,3 @@
-// MagicSquare.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
 #include <math.h>
 #include <string>
@@ -10,6 +7,12 @@ using namespace std;
 int main()
 {
     string out;
+    int cost = 0;
+
+    int sumRows[3] = {0,0,0};
+    int sumCols[3] = {0,0,0};
+
+    // A given square/matrix that is not yet a magic square
     int givenSquare[3][3] =
     {
         {6,3,3},
@@ -17,17 +20,31 @@ int main()
         {6,7,2}
     };
 
-    out = to_string(givenSquare[1][1]);
-    std::cout << out+"\n";
+    // Calculate the sum totals for each of the rows and columns of the given square
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            sumRows[i] += givenSquare[i][j];
+            sumCols[i] += givenSquare[j][i];
+        }
+    }
+    for (int i = 0; i < 3; i++)
+    {
+        printf("Sum of Row %d: %d\tSum of Column %d: %d\n", i, sumRows[i], i, sumCols[i]);
+    }
+    // Find rows and columns which have the same sum totals
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            if (sumRows[i] == sumCols[j])
+                printf("Row %d: %d = Column %d: %d\n", i, sumRows[i], j, sumCols[j]);
+        }
+    }
+
+    //out = to_string(givenSquare[1][1]);
+    //cost = abs(3-5);
+
+    //std::cout << out+"\n";
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
