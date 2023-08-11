@@ -3,22 +3,49 @@
 #include <string>
 
 bool showDebugInfo = true;
-int missingNums[9] = { 0 };
-int uniqueNums[9] = { 0 };
-int missingCount = 0, uniqueCount = 0;
 
-std::string out;
-int cost = 0;
+/*
+* TODO:
+* Combine loops?
+* Objects?
+* Find duplicates?
+* Calculate costs
+* Solve the Square
+* Use less global variables
+*/
 
-int sumRows[3] = { 0 };
-int sumCols[3] = { 0 };
-int uniqueNumbers[9] = { 0 };
+void drawSquare(int square[3][3]);
+void calculateTotals(int square[3][3]);
+void findUniqueNumbers(int square[3][3]);
+
+int main()
+{
+    std::string input = "";
+    showDebugInfo = true;
+
+    // A given square/matrix that is not yet a magic square
+    int givenSquare[3][3] =
+    {
+        {6,3,3},
+        {1,5,7},
+        {6,7,2}
+    };
+    
+    drawSquare(givenSquare);
+    calculateTotals(givenSquare);
+    findUniqueNumbers(givenSquare);
+    std::cin >> input;
+}
 
 // Find unique and missing numbers in a matrix
 void findUniqueNumbers(int square[3][3])
 {
-    bool unique = true;
+    int missingNums[9] = { 0 };
+    int uniqueNums[9] = { 0 };
+    int missingCount = 0, uniqueCount = 0;
     int count = 0, iterator = 1;
+    bool unique = true;
+
     for (iterator; iterator < 10; iterator++)
     {
         unique = true;
@@ -76,6 +103,9 @@ void findUniqueNumbers(int square[3][3])
 // Calculate the sum totals for each of the rows and columns of the given square
 void calculateTotals(int square[3][3])
 {
+    int sumRows[3] = { 0 };
+    int sumCols[3] = { 0 };
+
     for (int i = 0; i < 3; i++)
     {
         for (int j = 0; j < 3; j++)
@@ -94,22 +124,23 @@ void calculateTotals(int square[3][3])
             std::cout << "|__________________|____________________|\n";
         }
     }
+
+    // Find rows and columns which have the same sum totals
+    if (showDebugInfo)
+    {
+        std::cout << "\nRows and Columns which have the same sum totals:\n";
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                if (sumRows[i] == sumCols[j])
+                    printf("Row %d: %d = Column %d: %d\n", i, sumRows[i], j, sumCols[j]);
+            }
+        }
+        std::cout << "\n";
+    }
 }
 
-// Find rows and columns which have the same sum totals
-void findMatchingTotals(int square[3][3])
-{
-    std::cout << "\nRows and Columns which have the same sum totals:\n";
-    for (int i = 0; i < 3; i++)
-    {
-        for (int j = 0; j < 3; j++)
-        {
-            if (sumRows[i] == sumCols[j])
-                printf("Row %d: %d = Column %d: %d\n", i, sumRows[i], j, sumCols[j]);
-        }
-    }
-    std::cout << "\n";
-}
 
 void drawSquare(int square[3][3])
 {
@@ -122,24 +153,7 @@ void drawSquare(int square[3][3])
         {
             outStr = outStr + std::to_string(square[i][j]) + " | ";
         }
-        std::cout << outStr+"\n";
+        std::cout << outStr + "\n";
     }
-}
-
-int main()
-{
-    showDebugInfo = false;
-    // A given square/matrix that is not yet a magic square
-    int givenSquare[3][3] =
-    {
-        {6,3,3},
-        {1,5,7},
-        {6,7,2}
-    };
-    if (showDebugInfo)
-        drawSquare(givenSquare);
-    calculateTotals(givenSquare);
-    if (showDebugInfo) 
-        findMatchingTotals(givenSquare);
-    findUniqueNumbers(givenSquare);
+    std::cout << " -----------\n";
 }
